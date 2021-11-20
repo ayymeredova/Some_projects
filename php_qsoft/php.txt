@@ -1,0 +1,390 @@
+3:
+$myImportantArray = [1,2,3,4,5];
+
+
+foreach ($myImportantArray as $someBeautifulValue){
+	echo %someBeautifilValue;
+	
+}
+
+
+echo 'end';
+
+
+4:
+$s = 2;
+
+switch ($s) {
+    case 1:
+        echo 1;
+    case 2:
+        echo 2;
+    case 3:
+        echo 3;
+        break;
+    default:
+        echo 'default';
+}
+
+5
+if (null == 0) {
+    echo 'true';
+} else {
+    echo 'false';
+}
+
+
+
+6 
+for($i = 0; $i < 5; $i++)
+{
+    if ($i % 2 == 0){
+        continue;
+    }
+    echo $i;
+}
+
+
+7.
+$s = 2;
+$items = [
+	'key1' => 'value1',
+	'key2' => 'value2',
+];
+
+foreach ($items as $key => $value)\
+	if((int)$value == 0){
+		echo $key . '...';
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+11
+<?php //php 7.2.24
+
+
+$a = 5;
+
+function getValue1($a){
+    return $a++;
+}
+
+
+function getValue2($a){
+    return ++$a;
+}
+
+
+echo getValue1(getvalue2(getvalue2(getvalue1(getvalue1($a)))));
+   
+?>
+
+12
+var_dump(in_array('test', [0,1]));
+
+
+13
+$line = '321123';
+
+
+//echo substr($line, offset: -3);
+
+
+echo strrev(str_replace(search: '123', replace: '', $line));
+
+
+echo $line[3] . $line[4] . $line[0];
+
+
+
+
+
+14
+<?php //php 7.2.24
+
+$items = [
+    ['sort' => 1],
+    ['sort' => 3],
+    ['sort' => 5],
+    ['name' => 'items 1']
+];
+  
+
+$sum = 0;
+
+foreach ($items as $item){
+    $sum += $items['sort'];
+}
+
+echo $sum;
+?>
+
+
+
+
+
+
+15
+$basket = [
+        [
+            'position' => 'Книга по php',
+            'quantity' => 1,
+        ],
+        [
+            'position' =>'Мышь беспроводная',
+            'quantity' => 12,
+        ],
+];
+
+function countBasket($basket){
+    $result = 0;
+    foreach($basket as $item){
+        $result += $item['quantity'];
+    }
+    return $result;
+}
+
+
+
+
+
+16
+
+$data = [
+    'Мастера' => [
+        [
+            'Никнейм' => 'Nick',
+            'Город' => 'Москва',
+            'Доставка' => 'Да',
+        ],
+        [
+            'Никнейм' => 'Чебурашка',
+            'Город' => 'Челябинск',
+            'Доставка' => 'Нет',
+        ],
+        [
+            'Никнейм' => 'Black',
+            'Город' => 'Казань',
+            'Доставка' => 'Нет',
+        ],
+                ],
+                
+    'Товары' => [
+        [
+            'Наименование' => 'Бетон',
+            'Цена' => 100,
+            'Мастер' => 'Nick',
+        ],
+        [
+            'Наименование' => 'Герб',
+            'Цена' => 150,
+            'Мастер' => 'Nick',
+        ],
+        [
+            'Наименование' => 'Квадрат',
+            'Цена' => 799,
+            'Мастер' => 'Black',
+        ],
+        
+    
+    ] 
+];
+
+
+
+
+17
+
+$data = [
+    'authors' => [
+        301 => [
+            'id' => 301,
+            'name' => 'Александр Сергеевич Пушкин',
+            'email' => 'alexander_pushkin@example.com',
+            'birthYear' => 1799,
+        ],
+        10 => [
+            'id' => 10,
+            'name' => 'Николай Васильевич Гоголь',
+            'email' => 'nikolay_gogol@example.com',
+            'birthYear' => 1809,
+        ],
+        17 => [
+            'id' => 17,
+            'name' => 'Михаил Юрьевич Лермонтов',
+            'email' => 'mikhail_lermontov@example.com',
+            'birthYear' => 1814,
+        ],
+    ],
+    'books' => [
+        [
+            'title' => 'Евгений Онегин',
+            'publishedAt' => '1823—1832',
+            'author' => 301,
+        ],
+        [
+            'title' => 'Полтава',
+            'publishedAt' => '1828—1829',
+            'author' => 301,
+        ],
+        [
+            'title' => 'Мёртвые души',
+            'publishedAt' => '1842',
+            'author' => 10,
+        ],
+        [
+            'title' => 'Сказка о рыбаке и рыбке',
+            'publishedAt' => '1833',
+            'author' => 301,
+
+        ],
+    ],
+];
+
+/* ===== Ваш код ниже ===== */
+
+echo '=== Авторы ===<br>';
+foreach($data['authors'] as $nums){
+    echo $nums['name'] . ' - ' . $nums['email'] .' - ' . $nums['birthYear'];
+    echo  PHP_EOL;
+}
+
+echo '=== Книги ===<br>';
+foreach($data['books'] as $item){
+    echo $item['title'] . ' - ' . $data['authors'][$item['author']]['name'] . ' - ' . $item['publishedAt'];
+    echo PHP_EOL;
+}
+
+
+
+
+
+18
+
+
+function task17($n){
+    $sum = 0;
+    for ($i = 0; $i <= $n; $i++){
+        if ($i % 3 == 0) {
+            echo $i;
+            echo PHP_EOL;
+        }
+        elseif ($i % 5 == 0) {
+            $sum += $i;
+        }
+        elseif (($i % 5 ==0) && ($i % 3 == 0)) {
+            $sum -= 1;
+        }
+    }
+    return $sum;
+}
+
+
+
+
+
+
+
+
+
+
+========================exam=============
+$data = [
+    'question' => ['почему', 'как', 'зачем', 'столько'],
+    'animals' => [
+        'birds' => [
+            [
+                'name' => 'грачи',
+            ],
+            [
+                'name' => 'воробьи',
+            ],
+        ],
+        'others' => [
+            [
+                ['name' => 'кошки'],
+                ['name' => 'рыбы'],
+                ['name' => 'собаки'],
+            ],
+        ],
+    ],
+    'parts' => [
+        'hands' => 'рук',
+        'feathers' => 'перьев',
+        'eyes' => 'глаз',
+    ],
+];
+
+echo '"'.$data['question'][0].' '.$data['animals']['birds'][0]['name'].' '.'не'.' '.$data['animals']['others'][0][0]['name'].' '.'и'.' '.$data['question'][2].' '.'им столько'.' '.$data['parts']['feathers'].'"';
+
+
+
+
+// гаражи
+$garages = [
+    1 => ['id' => 1, 'name' => 'Гараж на улице 1', 'size' => 1],
+    7 => ['id' => 7, 'name' => 'Подземная парковка', 'size' => 100],
+    23 => ['id' => 23, 'name' => 'У домика в деревне', 'size' => 2],
+];
+
+// машины
+$cars = [
+    ['name' => 'Белый Ford', 'garageId' => 7],
+    ['name' => 'Черный Уаз', 'garageId' => 1],
+    ['name' => 'Синий Таз',  'garageId' => 7],
+];
+
+/*
+Выведите отдельную строку для каждой машины, вида: Машина "НАЗВАНИЕ МАШИНЫ" стоит в "НАЗВАНИЕ ГАРАЖА"
+
+например: Машина "Синий Таз" стоит в "Подземная парковка"
+
+*/
+/*
+echo "Машина".' '.'"'.$cars[0]['name'].'" '.'стоит в '.'"'.$garages[$cars[0]['garageId']]['name'].'"';
+echo PHP_EOL;
+echo "Машина".' '.'"'.$cars[1]['name'].'" '.'стоит в '.'"'.$garages[$cars[1]['garageId']]['name'].'"';
+echo PHP_EOL;
+echo "Машина".' '.'"'.$cars[2]['name'].'" '.'стоит в '.'"'.$garages[$cars[2]['garageId']]['name'].'"';
+*/
+
+
+foreach($cars as $item){
+    echo "Машина".' '.'"'.$item['name'].'" '.'стоит в '.'"'.$garages[$item['garageId']]['name'].'"';
+    echo PHP_EOL;
+}
+
+
+/*
+for($i = 0; $i < 3; ++$i){
+    echo "Машина".' '.'"'.$cars[$i]['name'].'" '.'стоит в '.'"'.$garages[$cars[$i]['garageId']]['name'].'"';
+    echo PHP_EOL;
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
