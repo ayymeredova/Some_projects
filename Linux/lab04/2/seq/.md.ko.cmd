@@ -1,0 +1,1 @@
+cmd_/home/sakerini/University/OS/unix/sem2/lab_04/part_02/seq/md.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000 -T ./scripts/module-common.lds --build-id  -o /home/sakerini/University/OS/unix/sem2/lab_04/part_02/seq/md.ko /home/sakerini/University/OS/unix/sem2/lab_04/part_02/seq/md.o /home/sakerini/University/OS/unix/sem2/lab_04/part_02/seq/md.mod.o ;  true

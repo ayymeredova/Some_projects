@@ -1,0 +1,4 @@
+0x00000000	md1_get_str	/home/sakerini/University/OS/unix/sem2/lab_03/part_2/md1	EXPORT_SYMBOL
+0x00000000	md1_str_data	/home/sakerini/University/OS/unix/sem2/lab_03/part_2/md1	EXPORT_SYMBOL
+0x00000000	md1_int_data	/home/sakerini/University/OS/unix/sem2/lab_03/part_2/md1	EXPORT_SYMBOL
+0x00000000	md1_factorial	/home/sakerini/University/OS/unix/sem2/lab_03/part_2/md1	EXPORT_SYMBOL

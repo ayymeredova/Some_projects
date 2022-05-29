@@ -1,0 +1,1 @@
+cmd_/home/sakerini/University/OS/unix/sem2/lab_04/part_02/seq/md.mod := { echo  /home/sakerini/University/OS/unix/sem2/lab_04/part_02/seq/md.o; echo; } > /home/sakerini/University/OS/unix/sem2/lab_04/part_02/seq/md.mod

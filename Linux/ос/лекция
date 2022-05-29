@@ -1,0 +1,235 @@
+struct device_driver
+{
+    const char *name,
+    struct bus_type *bus,
+    struct module *owner,
+    const char *mod_name,
+    ....
+    int (*probe)(struct device *dev);
+    int (*remove)(struct device *dev);
+    void (* shutdown)(struct device *dev);
+    ...
+}
+Не все точки входа перечислены. Опустила suspend, resume. Функция prob - точка входа, место с которого начиначется выполнения код драйвера, prob - вызывается, чтобы запросить существование конкретного устройства
+При этом если драйвер может работать с вызываем устройством и устройство готово, будет возвращен 0.
+rEMoVE- чтобы удалить устройство из системы, разорвать связь с драйвером.
+suspend чтобы перевести устройство в режим сна.
+resume - вывести из сонного состояния.
+
+Рассмотрим некоторые важнейшие функции, Например, для создания собственного символьного устройства.
+TUTORIAL PART 7 v 1.17
+
+Понятно, что если мы пишем драйвер в виде загружаемого модуля ядра, функция инит - в ней мы должны вызвать опеределенные функции.
+static int __init etx_driver_init(void)
+{
+    /* мы должны выделить старший номер.
+    Allocating major number */
+
+    if(alloc_chrdev_region(&dev, 0, f, "ext_dev"))<0)
+    {
+        printk(KERN_INFO "Cannot allocate\n");
+        return -1;
+    }
+
+    можем посмотреть полученные старшие и младшие номера.
+    printk(KERN_INFO "Major = %d, minor = %d\n", MAJOR(dev), MINOR(dev));
+    Фактически Идентифицированное char устройство добавляется в систему.
+    /*Adding char dev to the system*/
+    if(cdev_add(&etx_cdev, dev, 1))
+    {
+        проверка на ошибку.
+    }
+
+    /*Creating struct class* */
+
+    if ((dev_class = class_create(THIS_MODULE, "etx_class"))==NULL))
+    {
+        ERROR
+    }
+
+    /* CREATING DEVICE
+
+    if(device_create(dev_class, NULL, dev, NULL, "etx_device")) == NULL)
+    {
+        ....
+    }
+    ....
+    Затем мы должны зарегистрировать в нашем драйвере наш обработчик прерывания.
+   if(request_irq(IRQ_NO ЗДЕСЬ ОН РАВЕН 11, irq_handler, IRQF_SHARED, "etx_device", (void*)(irq_handler - наш обработчик прерывания, чтобы освободить irq))))
+   {
+
+   } 
+
+
+
+В этом примере много интересеного. В частости создается очередь работ. Не надо ее сдавать как свою курсовую работу.
+
+
+Вызываем create_workqueue.
+own_workqueue = create_workqueue("own_wq");
+....
+}
+
+В этом обработчике прерывания ставится работа в очередь
+static irqreturn_t irq_handler(int *irq, void *dev_id)
+{
+    printk
+    queue_work(own_workqueue, &work);
+    return IRQ_HANDLED;
+
+    тут не объявили работу
+}
+
+Если мы хотим вводить в строку записывать ее в ядре и брать ее из ядра в юзер, соответственно мы должны описать struct file operations и nfv vs ljk;ys gjbcfnm cdjb aeyrwbb read write open release
+Надо инициализировать работу. Но в то же время в драйвере можем определить свои операции. Использовать дл яэтого struct file opertions  и зарегистрировать свои функции. например, следующим образом.
+static struct file_operations fops = 
+{
+    .owner = THIS_MODULE,
+    .release = etx_read, 
+    .write = etx_rwite,
+    .open = etx_open,
+    .release = etx_release,
+};
+Если речь идет о блочном устройстве. Опять же в инит мы должны вызвать специальную функцию.
+==============================
+БЛОЧНОЕ УСТРОЙСТВО.
+Для блочного устройства свои функции . Мы частично посмотрим.
+static int __init sblvdev_init(void)
+{
+    int ret = SUCCESS;
+    _sblkdev_major = register_blkdev(_sblkdev_major, _sblkdev_name); - возвращает старший номер.
+    Страшная тайна: рассмотрели struct device device_driver. Есть структура описывающая символьное устройство и есть такое же для блочного утсройства.
+    Посмотреть самостоятельно.
+
+    if(_sblkdev_major <= 0)
+    {
+        printk(KERN_WARNING"..")
+        return _EBUSY;
+    }
+
+    ret = sblkdev_add_device();
+    анализируется ret
+    if(ret)
+    {
+        .....
+    }
+}
+    Фунция register_blkdev - ему выделяется номер.
+    Фунция sblkdev_add_device выполняет инициализацию блочного утсройства. Это наша функция.
+    В этой функции выделяется память для соответствующей структуры, выделяется буфер.
+    Во-первых, структура, которая представляет устройство.
+
+В предыдущес примере releas....... нет. Драйверы пишутся по разному.
+Если вы создаете свое устройство, то для этого функции для создания устройств.
+Существует большое разнообразие создания работы с драйверами.
+
+typedef struct sblkdev_device_s
+{
+    sector_t capacity;//фактически это размер устройства в байтах
+    u8* data;
+    atomic_t open_counter;
+    struct request_queue *queu;
+    struct gendisk *disk;
+}sblkdev_device_t;
+
+функции
+static int sblkdev_add_device(void)
+{
+    ....
+    sblkdev_device_t *dev = kzalloc(sizeof(sblkdev_device_t), GEP_KERNEL);
+
+}
+
+что надо делать здес?
+Необходимо инициализировать очередь обработки. В соответствии с этой очередью, будут выполняться соответствующие действия.
+Запросы выстраиваются в некоторую очередь.
+Затем, необходимо выделить этот диск. Делается функцикй alloc_disk передается 1
+struct gendisk *disk = alloc_disk(1);
+Фактически выделяется одна partition. Соотвест, у диска должна быть major number. ему присваивается значение которое было получено раннее
+Необходимо выполнить большой объем действий, для работы с этим устройсвом. 
+
+1)Под структуру выделяем память, дл ятого чтобы хранить поля
+2)Инициализируется очередь запросов обработки
+ДЛя того, чтобы иметь возмодность обрабатвать эти запросы.
+Надо сказать, что здесь на блочных устройствах опеределена глобальная структура 
+static struct blk_mq_ops _mq_ops_t
+{
+    .queue_rq = queue_rq;
+};
+
+ОДна елинственная точка входа - функция.Это фунция и выполняет обработку запросов.Но это не единственная структура.
+Существует 
+static const struct block_device_operations __fops = {
+    .owner = THIS_MODULE,
+    .open = _open,
+    .release = _release,
+    .ioctl = _ioctl,
+    #ifdef CONFIG_COMPAT
+    .compat_ioctl = _compat _ioctl,
+    #endif
+    
+};
+Из самого названия понятно, что это совсем другая структура.
+
+Определены три точки входа для блочного устройства.
+В функциях можно выполнять инкремент счетчика,чтобы проработать вопрос работы с блочными устройствами.
+
+В фУНКЦИИ exit вызываем remove_device
+static void _exit sblkdev_exit(void)
+{
+    sblkdev_remove_device(); -
+....
+}
+
+
+
+static void sblkdev_remove_device(void)
+{
+    ....
+    мы должны удалить gendisk
+    del_gendisk(dev->disk);
+    ...
+    очистить очередь
+    blk_cleanup_queue(dev->queue);
+
+    если выделяли буфер, то должны освободить ее
+    __sblkdev_device = NULL;
+}
+
+Данный пример рассматривается как одна из возможностей курсовой работы
+
+
+
+
+========
+usb драйверы. 
+
+
+usb шина является удобной, быстрой. В системе имеется специальная структура, которая описывает usb драйвера.
+struct usb_driver
+{
+    const char *name, - Имя использется чтобы увидеть ее в системе
+    чтобы опеределить, что устройсво доступно и что оно предназначено для работы с этом устройством
+    int (*probr - тут опеределена для интерфейса)(struct usb_interface *intf, const struct usb_device_id *id - vajno);
+    void (*disconnect)(struct usb_interface *intf);
+
+    ...
+
+    const struct usb_device_id *id_table,
+    ....
+
+};
+
+в struct usb_driver также существуют другие точки входа
+
+const struct usb_device_id *id опеределяет ид табле для поддержания горячего подключения.
+Фактически это таблица. 
+struct_usb ///-  содержит список всех юсб устройств, который может распознать данный драйвер.
+Если это переменная не определена, то call back фкнция обратного вызова probr никогда не будет вызвана.
+Существуют примеры заполнения этой структуры.
+
+vendor_id  и  product_id 
+
+
+КУРСАЧИ - советую не делать драйвер мыши, драйвер клавы.
+Консультируемся и договариваемся только с Ряязановой какую курсовую работу будем делать.
